@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kiểm tra số nguyên tố</title>
+  </head>
+  <body>
+    <h2>Kiểm tra số nguyên tố</h2>
+
+    <input id="numberInput" type="number" placeholder="Nhập số..." />
+    <button onclick="checkPrime()">Kiểm tra</button>
+
+    <p id="result"></p>
+
+    <script>
+      function isPrime(n) {
+        if (n <= 1) return false;
+
+        for (let i = 2; i <= Math.sqrt(n); i++) {
+          if (n % i === 0) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      function checkPrime() {
+        const value = document.getElementById("numberInput").value;
+        const n = parseInt(value);
+
+        if (isNaN(n)) {
+          document.getElementById("result").innerText =
+            "Vui lòng nhập một số hợp lệ!";
+          return;
+        }
+
+        const result = isPrime(n);
+        document.getElementById("result").innerText = result
+          ? `${n} là số nguyên tố`
+          : `${n} không phải số nguyên tố`;
+      }
+    </script>
+  </body>
+</html>
