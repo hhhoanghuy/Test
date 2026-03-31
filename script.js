@@ -5,16 +5,16 @@ const charDisplay = document.getElementById("charCount");
 inputBox.addEventListener("input", () => {
   const content = inputBox.value;
 
-  // Đếm từ
-  const wordList = content.trim().split(/\s+/);
-  const totalWords = content.trim() === "" ? 0 : wordList.length;
+  // ❌ Sai: đếm từ bằng split(" ")
+  const wordList = content.split(" ");
+  const totalWords = wordList.length;
   wordDisplay.textContent = "Số từ: " + totalWords;
 
-  // Đếm ký tự còn lại
+  // ✅ vẫn đúng
   const charsLeft = 200 - content.length;
   charDisplay.textContent = "Số ký tự còn lại: " + charsLeft;
 
-  // Cảnh báo
+  // ✅ vẫn đúng
   if (charsLeft <= 20) {
     charDisplay.classList.add("warning");
   } else {
