@@ -1,23 +1,23 @@
-const textInput = document.getElementById("textInput");
-const wordCount = document.getElementById("wordCount");
-const charCount = document.getElementById("charCount");
+const inputBox = document.getElementById("textInput");
+const wordDisplay = document.getElementById("wordCount");
+const charDisplay = document.getElementById("charCount");
 
-textInput.addEventListener("input", () => {
-  const text = textInput.value;
+inputBox.addEventListener("input", () => {
+  const content = inputBox.value;
 
   // Đếm từ
-  let words = text.trim().split(/\s+/);
-  let count = text.trim() === "" ? 0 : words.length;
-  wordCount.textContent = "Số từ: " + count;
+  const wordList = content.trim().split(/\s+/);
+  const totalWords = content.trim() === "" ? 0 : wordList.length;
+  wordDisplay.textContent = "Số từ: " + totalWords;
 
   // Đếm ký tự còn lại
-  const remaining = 200 - text.length;
-  charCount.textContent = "Số ký tự còn lại: " + remaining;
+  const charsLeft = 200 - content.length;
+  charDisplay.textContent = "Số ký tự còn lại: " + charsLeft;
 
   // Cảnh báo
-  if (remaining <= 20) {
-    charCount.classList.add("warning");
+  if (charsLeft <= 20) {
+    charDisplay.classList.add("warning");
   } else {
-    charCount.classList.remove("warning");
+    charDisplay.classList.remove("warning");
   }
 });
