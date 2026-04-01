@@ -1,25 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đếm Từ và Ký Tự</title>
+    <title>Search UI</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <h2>Đếm từ & ký tự</h2>
+    <main class="container">
+      <h1 class="title">Search</h1>
 
-      <textarea
-        id="textInput"
-        maxlength="200"
-        placeholder="Nhập tối đa 200 ký tự..."
-      ></textarea>
+      <div class="search-box">
+        <input type="text" placeholder="Search..." />
+        <button>🔍</button>
+      </div>
 
-      <div id="wordCount">Số từ: 0</div>
-      <div id="charCount">Số ký tự còn lại: 200</div>
-    </div>
+      <div class="tags">
+        <span>UI Design</span>
+        <span>UX</span>
+        <span>Wireframe</span>
+        <span>Dashboard</span>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="results">
+        <div class="card">
+          <h3>Result Title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+
+        <div class="card">
+          <h3>Result Title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+
+        <div class="card">
+          <h3>Result Title</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
