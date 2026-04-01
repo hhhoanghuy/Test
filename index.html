@@ -1,43 +1,238 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Category UI</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="search-bar"></div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thiệp Cưới</title>
 
-      <div class="grid">
-        <div class="card pink">
-          <div class="icon">🛋️</div>
-          <p>Furniture</p>
-        </div>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
-        <div class="card purple">
-          <div class="icon">🏠</div>
-          <p>Property</p>
-        </div>
+body {
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-        <div class="card gray">
-          <div class="icon">🏢</div>
-          <p>Job</p>
-        </div>
+/* Wrapper */
+.scene {
+  perspective: 1200px;
+  width: 90%;
+  max-width: 360px;
+}
 
-        <div class="card green">
-          <div class="icon">✈️</div>
-          <p>Travel</p>
-        </div>
+/* Card 3D */
+.card {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
 
-        <div class="card lightgreen">
-          <div class="icon">🚤</div>
-        </div>
+.card.open {
+  transform: rotateY(180deg);
+}
 
-        <div class="card white">
-          <div class="icon">🛵</div>
-        </div>
-      </div>
+/* 2 mặt */
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Mặt trước */
+.front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Mặt sau */
+.back {
+  transform: rotateY(180deg);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.blur {
+  filter: blur(6px);
+  cursor: pointer;
+}
+
+/* Form */
+form {
+  margin-top: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: #e91e63;
+  color: white;
+  font-weight: bold;
+}
+
+/* tên khách */
+.guest {
+  margin-top: 10px;
+  color: #e91e63;
+  font-weight: bold;
+}
+
+/* canvas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* mobile */
+@media (max-width: 400px) {
+  .card {
+    height: 420px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="scene">
+  <div class="card" id="card">
+    
+    <!-- FRONT -->
+    <div class="face front">
+      💌 Nhấn để mở thiệp
     </div>
-  </body>
+
+    <!-- BACK -->
+    <div class="face back">
+      <h2>💍 Thiệp Cưới 💍</h2>
+      <p>Chú rể: <b>Hoàng Thanh Huy</b></p>
+      <p>
+        Cô dâu: 
+        <span id="bride" class="blur">????</span>
+      </p>
+      <p>📅 20/04/2027</p>
+
+      <!-- FORM -->
+      <form id="form">
+        <input type="text" id="nameInput" placeholder="Nhập tên của bạn..." />
+        <button type="submit">Xác nhận</button>
+      </form>
+
+      <div class="guest" id="guestName"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const card = document.getElementById("card");
+const form = document.getElementById("form");
+const input = document.getElementById("nameInput");
+const guest = document.getElementById("guestName");
+const bride = document.getElementById("bride");
+
+/* mở thiệp */
+card.addEventListener("click", () => {
+  card.classList.add("open");
+});
+
+/* submit form */
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = input.value.trim();
+  if (!name) return;
+
+  bride.classList.remove("blur");
+  bride.textContent = "❤️ " + name;
+
+  guest.textContent = "Trân trọng kính mời: " + name;
+
+  launchFireworks();
+});
+
+/* ===== FIREWORK CANVAS ===== */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function launchFireworks() {
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      dx: (Math.random() - 0.5) * 8,
+      dy: (Math.random() - 0.5) * 8,
+      life: 100
+    });
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach((p, i) => {
+    p.x += p.dx;
+    p.y += p.dy;
+    p.life--;
+
+    ctx.fillStyle = "hsl(" + Math.random()*360 + ",100%,50%)";
+    ctx.fillRect(p.x, p.y, 3, 3);
+
+    if (p.life <= 0) particles.splice(i, 1);
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+/* responsive canvas */
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
 </html>
